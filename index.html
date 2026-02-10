@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For My Love ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient(#f8d7da, #f4c2c2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* Soft moving pink glow */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,182,193,0.4), transparent 60%);
+      animation: glowMove 12s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes glowMove {
+      0% { transform: translate(-20%, -20%); }
+      50% { transform: translate(20%, 20%); }
+      100% { transform: translate(-20%, -20%); }
+    }
+
+    /* Card */
+    .card {
+      background: #efd3d3;
+      width: 85%;
+      max-width: 650px;
+      padding: 60px 40px;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      display: none;
+      position: relative;
+      z-index: 5;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .card.show {
+      animation: riseFade 1.5s ease forwards;
+    }
+
+    @keyframes riseFade {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1, h2 {
+      font-family: 'Great Vibes', cursive;
+      color: #b11226;
+      animation: heartbeat 2s infinite;
+    }
+
+    h1 { font-size: 60px; margin: 0; }
+    h2 { font-size: 50px; margin-bottom: 20px; }
+
+    @keyframes heartbeat {
+      0%,100%{transform:scale(1);}
+      50%{transform:scale(1.05);}
+    }
+
+    p {
+      color: #b11226;
+      font-size: 22px;
+      line-height: 1.7;
+      margin: 10px 0;
+    }
+
+    .signature {
+      margin-top: 40px;
+      font-family: 'Great Vibes', cursive;
+      font-size: 22px;
+    }
+
+    /* Open button */
+    .open-btn {
+      padding: 18px 40px;
+      font-size: 22px;
+      border-radius: 40px;
+      border: none;
+      background: #e63946;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      z-index: 5;
+    }
+
+    /* Floating heart balloons */
+    .balloon {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0.9;
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.2; }
+      to { opacity: 1; }
+    }
+
+    /* LOVE LETTER 💌 */
+    .heart-btn {
+      font-size: 28px;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100%{transform:scale(1);}
+      50%{transform:scale(1.2);}
+    }
+
+    #hiddenLetter {
+      display:none;
+      font-size:18px;
+      color:#b11226;
+      animation: popOut 0.5s ease forwards;
+    }
+
+    @keyframes popOut {
+      from { transform:scale(0.5); opacity:0; }
+      to { transform:scale(1); opacity:1; }
+    }
+
+    /* TOP BALLOONS */
+    .balloon-cluster {
+      position: fixed;
+      top: 10px;
+      z-index: 40;
+    }
+    .left-cluster { left: 10px; }
+    .right-cluster { right: 10px; }
+
+    .top-balloon {
+      font-size: 28px;
+      margin:4px;
+      cursor:pointer;
+    }
+
+    .balloon-message {
+      position: fixed;
+      top: 80px;
+      max-width: 220px;
+      background: #efd3d3;
+      padding: 12px;
+      border-radius: 10px;
+      font-family:'Playfair Display';
+      color:#b11226;
+      display:none;
+      z-index:50;
+      animation: popOut 0.4s ease;
+    }
+    .left-message{ left:10px;}
+    .right-message{ right:10px;}
+
+    /* LIVE LOVE TIMER */
+    .love-counter {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      font-size:14px;
+      color:#b11226;
+      text-shadow:0 0 10px rgba(255,0,0,0.7);
+      z-index:50;
+      font-family:'Playfair Display';
+      text-align:right;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- BALLOONS -->
+<div class="balloon-cluster left-cluster">
+  <span class="top-balloon" onclick="showBalloonMessage(0)">🎈</span>
+  <span class="top-balloon" onclick="showBalloonMessage(1)">🎈</span>
+  <span class="top-balloon" onclick="showBalloonMessage(2)">🎈</span>
+</div>
+
+<div class="balloon-cluster right-cluster">
+  <span class="top-balloon" onclick="showBalloonMessage(3)">🎈</span>
+  <span class="top-balloon" onclick="showBalloonMessage(4)">🎈</span>
+  <span class="top-balloon" onclick="showBalloonMessage(5)">🎈</span>
+</div>
+
+<div id="balloonMessage" class="balloon-message left-message"></div>
+
+<button class="open-btn" onclick="openCard()">Open Me ❤️</button>
+
+<div class="card" id="card">
+  <h1>Happy Valentine’s Day</h1>
+  <h2>My Love</h2>
+
+  <p>
+    To the one who holds the key to my heart 🔑❤️, my rock, my safe place 🫂, my home, my soulmate 🤍, my other half, my forever person 👫, I love you with every ounce of love that my heart holds 💘.
+  </p>
+
+  <p>You are the sweetest soul I've ever known. Cheers to our 2nd Valentine's Day together, and here's to forevermore ahead!!! 🎉❤️</p>
+
+  <div class="love-letter">
+    <span class="heart-btn" onclick="showLetter()">💌</span>
+    <p id="hiddenLetter">I will love you till my last breath ❤️</p>
+  </div>
+
+  <p class="signature">With love, always, your girl</p>
+</div>
+
+<div class="love-counter" id="loveCounter"></div>
+
+<audio id="music" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=romantic-love-11786.mp3" type="audio/mpeg" />
+</audio>
+
+<script>
+
+function openCard() {
+  document.querySelector(".open-btn").style.display="none";
+  const card=document.getElementById("card");
+  card.style.display="block";
+  card.classList.add("show");
+
+  heartExplosion();
+
+  const music=document.getElementById("music");
+  music.volume=0;
+  music.play();
+  let v=0;
+  const fade=setInterval(()=>{ if(v<0.7){v+=0.02; music.volume=v;} else clearInterval(fade);},200);
+}
+
+/* HEART BURST */
+function heartExplosion(){
+  for(let i=0;i<30;i++){
+    const h=document.createElement("div");
+    h.innerHTML="❤️";
+    h.style.position="absolute";
+    h.style.left="50%";
+    h.style.top="50%";
+    h.style.fontSize=(20+Math.random()*20)+"px";
+    document.body.appendChild(h);
+    h.animate([
+      {transform:"translate(0,0)",opacity:1},
+      {transform:`translate(${Math.random()*600-300}px,${Math.random()*600-300}px)`,opacity:0}
+    ],{duration:1000});
+    setTimeout(()=>h.remove(),1000);
+  }
+}
+
+/* LOVE LETTER */
+function showLetter(){
+  document.getElementById("hiddenLetter").style.display="block";
+}
+
+/* BALLOON MESSAGES */
+const balloonMessages=[
+"You are my favourite",
+"I would choose you a million times over without a doubt",
+"You are the best thing that has ever happened to me",
+"That sweet smile of yours is the most heartwarming",
+"Forever and For Always, My Baby",
+"You're my end and every beginning."
+];
+
+let activeBalloon=null;
+
+function showBalloonMessage(index){
+  const box=document.getElementById("balloonMessage");
+
+  if(activeBalloon===index){box.style.display="none";activeBalloon=null;return;}
+
+  activeBalloon=index;
+  box.innerText=balloonMessages[index];
+
+  if(index<3){box.className="balloon-message left-message";}
+  else{box.className="balloon-message right-message";}
+
+  box.style.display="block";
+}
+
+/* LIVE LOVE TIMER */
+function updateLoveCounterLive(){
+  const start=new Date("2024-10-08T00:00:00");
+  const now=new Date();
+  let diff=now-start;
+
+  const years=Math.floor(diff/(1000*60*60*24*365));
+  diff-=years*(1000*60*60*24*365);
+
+  const weeks=Math.floor(diff/(1000*60*60*24*7));
+  diff-=weeks*(1000*60*60*24*7);
+
+  const days=Math.floor(diff/(1000*60*60*24));
+  diff-=days*(1000*60*60*24);
+
+  const hours=Math.floor(diff/(1000*60*60));
+
+  document.getElementById("loveCounter").innerHTML=
+  `Together for ${years} yrs • ${weeks} wks • ${days} days • ${hours} hrs ❤️`;
+}
+setInterval(updateLoveCounterLive,1000);
+updateLoveCounterLive();
+
+</script>
+</body>
+</html>
